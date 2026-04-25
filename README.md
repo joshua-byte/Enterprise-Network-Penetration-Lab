@@ -127,15 +127,6 @@ Key defensive measures include:
 
 > Detailed remediation strategies are included in the full report.
 
----
-
-## 📄 Full Report
-
-The complete professional VAPT report is available here:
-
-📥 `Final_VAPT_Report.docx`
-
----
 
 ## 🛠️ Tools Used
 
@@ -145,25 +136,6 @@ The complete professional VAPT report is available here:
 * Netcat
 * John the Ripper
 
----
-
-## 📂 Project Structure
-
-```
-network-exploitation-lab/
-│── ftp/
-│── smb/
-│── ssh/
-│── rpc/
-│── exploits/
-│── captures/
-│── methodology.md
-│── cross-analysis.md
-│── Final_VAPT_Report.docx
-│── README.md
-```
-
----
 
 ## 🚀 Learning Outcomes
 
