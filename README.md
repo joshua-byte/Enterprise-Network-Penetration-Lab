@@ -2,9 +2,7 @@
 
 ## Overview
 
-This project demonstrates a **full network penetration testing workflow**, focusing on the exploitation of common network services in a controlled lab environment.
-
-The objective was to simulate real-world attack scenarios by identifying vulnerabilities, exploiting them, and chaining multiple services to achieve **full system compromise**.
+Simulated enterprise network penetration testing focusing on service exploitation, lateral movement, and privilege escalation.
 
 ---
 
