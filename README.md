@@ -1,154 +1,171 @@
-# Network Service Exploitation Lab (VAPT Project)
+# Enterprise Network Penetration Lab
 
 ## Overview
 
-Simulated enterprise network penetration testing focusing on service exploitation, lateral movement, and privilege escalation.
+This project simulates an enterprise network penetration test with a focus on **service-level exploitation, lateral movement, and privilege escalation**.
+
+The lab demonstrates how attackers leverage misconfigured services and known vulnerabilities to gain initial access, escalate privileges, and pivot across systems.
 
 ---
 
 ## Objectives
 
-* Perform structured network reconnaissance and enumeration
-* Identify vulnerabilities across exposed services
-* Exploit misconfigurations and known CVEs
-* Achieve privilege escalation and system compromise
-* Demonstrate **multi-service attack chaining**
-* Produce a professional **Vulnerability Assessment & Penetration Testing (VAPT) report**
-
----
-
-## Key Highlights
-
-*  Unauthenticated Remote Code Execution (FTP backdoor)
-*  SMB exploitation using EternalBlue (MS17-010)
-*  SSH brute-force and privilege escalation
-*  Full filesystem access via misconfigured NFS (RPC)
-*  Attack chaining across multiple services
-*  Detailed VAPT report with CVE & CVSS mapping
+- Perform structured network reconnaissance and service enumeration  
+- Identify vulnerabilities in exposed network services  
+- Exploit real-world CVEs and misconfigurations  
+- Achieve privilege escalation on compromised systems  
+- Demonstrate **multi-service attack chaining and pivoting**  
+- Produce a professional **Vulnerability Assessment & Penetration Testing (VAPT) report**  
 
 ---
 
 ## Lab Environment
 
 | Role     | System           | IP Address      |
-| -------- | ---------------- | --------------- |
-| Attacker | Kali Linux       | 192.168.109.131 |
-| Target 1 | Metasploitable 2 | 192.168.109.130 |
-| Target 2 | Windows XP       | 192.168.109.132 |
+|----------|----------------|-----------------|
+| Attacker | Kali Linux      | 192.168.109.131 |
+| Target 1 | Metasploitable2 | 192.168.109.130 |
+| Target 2 | Windows XP      | 192.168.109.132 |
 
->  This environment is intentionally vulnerable and designed for learning and demonstration purposes.
-
----
-
-##  Methodology
-
-The assessment followed a standard penetration testing lifecycle:
-
-1. Reconnaissance
-2. Service Enumeration
-3. Vulnerability Identification
-4. Exploitation
-5. Privilege Escalation
-6. Post-Exploitation
-7. Reporting
+> ⚠️ This lab is intentionally vulnerable and designed for controlled security testing.
 
 ---
 
-##  Services Exploited
+## Methodology
 
-###  FTP (Port 21)
+The assessment follows a standard penetration testing lifecycle:
 
-* Vulnerable version: vsFTPd 2.3.4
-* CVE: CVE-2011-2523
-* Impact: Unauthenticated remote shell access
-
----
-
-###  SMB (Port 445)
-
-* Vulnerability: MS17-010 (EternalBlue)
-* CVE: CVE-2017-0144
-* Impact: Remote code execution as SYSTEM
+1. Reconnaissance  
+2. Service Enumeration  
+3. Vulnerability Identification  
+4. Exploitation  
+5. Privilege Escalation  
+6. Post-Exploitation  
+7. Reporting  
 
 ---
 
-###  SSH (Port 22)
+## Attack Surface Overview
 
-* Weak credentials exploited via brute force
-* Privilege escalation via sudo misconfiguration
-* Impact: Full root access
+Initial reconnaissance identified multiple exposed services:
 
----
+- FTP (Port 21)  
+- SSH (Port 22)  
+- RPC/NFS (Port 111)  
+- SMB (Port 445)  
 
-###  RPC / NFS (Port 111)
-
-* Misconfiguration: Root directory (`/`) exported to all hosts
-* Impact: Full filesystem access without authentication
+These services formed the basis for exploitation and lateral movement.
 
 ---
 
-##  Attack Chain Summary
+## Exploitation Details
 
-The project demonstrates realistic attack paths:
+### FTP — Remote Code Execution
 
-```
-FTP → Root Access → Credential Extraction  
-SMB → SYSTEM Access → Persistence  
-SSH → Brute Force → Privilege Escalation  
-RPC/NFS → Filesystem Mount → Credential Dump  
-```
-
-> These chains reflect how attackers pivot across services in real environments.
+- **Service:** vsFTPd 2.3.4  
+- **CVE:** CVE-2011-2523  
+- **Issue:** Backdoored service allowing unauthenticated access  
+- **Impact:** Remote shell access without credentials  
 
 ---
 
-##  Impact
+### SMB — EternalBlue Exploit
 
-* Full system compromise (Linux & Windows)
-* Credential disclosure and reuse
-* Persistent access creation
-* Potential lateral movement
-
-**Overall Risk:  CRITICAL**
+- **Vulnerability:** MS17-010  
+- **CVE:** CVE-2017-0144  
+- **Issue:** SMBv1 remote code execution vulnerability  
+- **Impact:** SYSTEM-level access on Windows target  
 
 ---
 
-##  Mitigation Overview
+### SSH — Credential Brute Force & Privilege Escalation
 
-Key defensive measures include:
-
-* Patch management and software updates
-* Disabling deprecated protocols (SMBv1)
-* Strong authentication policies
-* Network segmentation and firewalling
-* Monitoring and intrusion detection
-
-> Detailed remediation strategies are included in the full report.
-
-
-##  Tools Used
-
-* Nmap
-* Metasploit Framework
-* Hydra / Ncrack
-* Netcat
-* John the Ripper
-
-
-##  Learning Outcomes
-
-* Understanding of network service vulnerabilities
-* Hands-on exploitation of real CVEs
-* Development of attacker mindset
-* Ability to write professional pentest reports
-* Exposure to multi-service attack chaining
+- **Technique:** Password brute-force attack  
+- **Post-Exploitation:** Sudo misconfiguration exploited  
+- **Impact:** Full root access  
 
 ---
 
-##  Disclaimer
+### RPC / NFS — Misconfiguration Abuse
 
-This project was conducted in a controlled lab environment for educational purposes only.
+- **Issue:** Root directory (`/`) exported to all hosts  
+- **Impact:** Unauthenticated filesystem access  
+- **Result:** Credential extraction and sensitive data exposure  
+
+---
+
+## Attack Chain & Lateral Movement
+
+This lab demonstrates realistic attacker workflows:
+
+
+FTP → Initial Access → Credential Extraction
+SMB → SYSTEM Compromise → Persistence
+SSH → Brute Force → Privilege Escalation
+NFS → Filesystem Mount → Credential Dump → Pivoting
+
+
+### Key Insight
+
+The compromise was not due to a single vulnerability, but due to:
+
+- Multiple exposed services  
+- Weak authentication  
+- Lack of segmentation  
+- Poor configuration practices  
+
+---
+
+## Impact Assessment
+
+- Full compromise of Linux and Windows systems  
+- Credential reuse across services  
+- Persistent access establishment  
+- High potential for lateral movement  
+
+**Overall Risk Rating: CRITICAL**
+
+---
+
+## Mitigation & Defensive Measures
+
+- Apply regular patch management (e.g., MS17-010)  
+- Disable deprecated protocols (SMBv1)  
+- Enforce strong authentication policies  
+- Restrict service exposure (least privilege)  
+- Implement network segmentation  
+- Monitor traffic and detect anomalies  
+
+---
+
+## Tools Used
+
+- Nmap (Reconnaissance & Enumeration)  
+- Metasploit Framework (Exploitation)  
+- Hydra / Ncrack (Credential Attacks)  
+- Netcat (Shell Handling)  
+- John the Ripper (Password Cracking)  
+
+---
+
+## Key Takeaways
+
+- Real-world attacks rely on **chaining multiple weaknesses**, not isolated exploits  
+- Misconfigurations are often more critical than software vulnerabilities  
+- Network segmentation plays a key role in limiting attack spread  
+- Understanding **service behavior** is essential for effective penetration testing  
+
+---
+
+## Deliverables
+
+- Full VAPT report (including CVE and CVSS mapping)  
+- Exploitation walkthrough and documentation  
+- Attack chain analysis  
+
+---
+
+## Disclaimer
+
+This project was conducted in a controlled lab environment for educational purposes only.  
 Do not attempt these techniques on systems without proper authorization.
-
----
-
