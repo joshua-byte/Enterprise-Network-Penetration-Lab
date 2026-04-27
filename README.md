@@ -29,6 +29,9 @@ The lab demonstrates how attackers leverage misconfigured services and known vul
 
 > ⚠️ This lab is intentionally vulnerable and designed for controlled security testing.
 
+<img width="660" height="523" alt="net_diagram" src="https://github.com/user-attachments/assets/554e1730-2e02-481b-aa6d-b83dd26c1a10" />
+
+
 ---
 
 ## Methodology
