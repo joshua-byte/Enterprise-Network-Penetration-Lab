@@ -125,8 +125,9 @@ Reconnaissance → Enumeration → Vulnerability Identification → Exploitation
 * Successful brute-force attack
 * SSH login as `msfadmin`
 * `sudo su → root`
+<img width="497" height="257" alt="ncrack_bruteforce" src="https://github.com/user-attachments/assets/5280bc9d-43e8-4910-bc50-212119eb9dfb" />  
 <img width="1116" height="687" alt="ssh_access" src="https://github.com/user-attachments/assets/14866c48-4680-42c0-aab4-7cec27321a73" />
-<img width="497" height="257" alt="ncrack_bruteforce" src="https://github.com/user-attachments/assets/5280bc9d-43e8-4910-bc50-212119eb9dfb" />
+
 
 
 **Remediation:**
