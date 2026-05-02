@@ -24,7 +24,7 @@ The assessment demonstrates how attackers leverage misconfigured services, weak 
 | Role     | System          | IP Address      |
 | -------- | --------------- | --------------- |
 | Attacker | Kali Linux      | 192.168.109.131 |
-| Target 1 | Metasploitable2 | 192.168.109.130 |
+| Target 1 | Metasploitable2 | 192.168.109.139 |
 | Target 2 | Windows XP      | 192.168.109.132 |
 
 >  This lab is intentionally vulnerable and used for authorized testing only.
