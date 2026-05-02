@@ -1,174 +1,203 @@
-# Enterprise Network Penetration Lab
+# Internal Network Penetration Test Report
 
-## Overview
+## 📌 Overview
 
-This project simulates an enterprise network penetration test with a focus on **service-level exploitation, lateral movement, and privilege escalation**.
+This project simulates a real-world internal network penetration test conducted in a controlled lab environment. The objective is to identify vulnerabilities, exploit weaknesses across multiple services, and assess the overall security posture of the network.
 
-The lab demonstrates how attackers leverage misconfigured services and known vulnerabilities to gain initial access, escalate privileges, and pivot across systems.
-
----
-
-## Objectives
-
-- Perform structured network reconnaissance and service enumeration  
-- Identify vulnerabilities in exposed network services  
-- Exploit real-world CVEs and misconfigurations  
-- Achieve privilege escalation on compromised systems  
-- Demonstrate **multi-service attack chaining and pivoting**  
-- Produce a professional **Vulnerability Assessment & Penetration Testing (VAPT) report**  
+The assessment demonstrates how attackers leverage misconfigured services, weak authentication, and known vulnerabilities to gain access, escalate privileges, and move laterally across systems.
 
 ---
 
-## Lab Environment
+## 🎯 Objectives
 
-| Role     | System           | IP Address      |
-|----------|----------------|-----------------|
+* Perform structured network reconnaissance and service enumeration
+* Identify vulnerabilities in exposed network services
+* Exploit real-world CVEs and misconfigurations
+* Achieve privilege escalation on compromised systems
+* Demonstrate multi-stage attack chaining and lateral movement
+* Produce a professional Vulnerability Assessment & Penetration Testing (VAPT) report
+
+---
+
+## 🧱 Lab Environment
+
+| Role     | System          | IP Address      |
+| -------- | --------------- | --------------- |
 | Attacker | Kali Linux      | 192.168.109.131 |
 | Target 1 | Metasploitable2 | 192.168.109.130 |
 | Target 2 | Windows XP      | 192.168.109.132 |
 
 > ⚠️ This lab is intentionally vulnerable and designed for controlled security testing.
 
-<img width="660" height="523" alt="net_diagram" src="https://github.com/user-attachments/assets/554e1730-2e02-481b-aa6d-b83dd26c1a10" />
-
-
----
-
-## Methodology
-
-The assessment follows a standard penetration testing lifecycle:
-
-1. Reconnaissance  
-2. Service Enumeration  
-3. Vulnerability Identification  
-4. Exploitation  
-5. Privilege Escalation  
-6. Post-Exploitation  
-7. Reporting  
+![Network Diagram](https://github.com/user-attachments/assets/554e1730-2e02-481b-aa6d-b83dd26c1a10)
 
 ---
 
-## Attack Surface Overview
+## ⚔️ Methodology
 
-Initial reconnaissance identified multiple exposed services:
+The assessment follows a structured penetration testing lifecycle:
 
-- FTP (Port 21)  
-- SSH (Port 22)  
-- RPC/NFS (Port 111)  
-- SMB (Port 445)  
-
-These services formed the basis for exploitation and lateral movement.
-
----
-
-## Exploitation Details
-
-### FTP — Remote Code Execution
-
-- **Service:** vsFTPd 2.3.4  
-- **CVE:** CVE-2011-2523  
-- **Issue:** Backdoored service allowing unauthenticated access  
-- **Impact:** Remote shell access without credentials  
+1. Reconnaissance
+2. Service Enumeration
+3. Vulnerability Identification
+4. Exploitation
+5. Privilege Escalation
+6. Post-Exploitation
+7. Reporting
 
 ---
 
-### SMB — EternalBlue Exploit
+## 🔍 Attack Surface Overview
 
-- **Vulnerability:** MS17-010  
-- **CVE:** CVE-2017-0144  
-- **Issue:** SMBv1 remote code execution vulnerability  
-- **Impact:** SYSTEM-level access on Windows target  
+Initial reconnaissance identified the following exposed services:
 
----
+* FTP (Port 21)
+* SSH (Port 22)
+* RPC/NFS (Port 111)
+* SMB (Port 445)
 
-### SSH — Credential Brute Force & Privilege Escalation
-
-- **Technique:** Password brute-force attack  
-- **Post-Exploitation:** Sudo misconfiguration exploited  
-- **Impact:** Full root access  
+These services formed the primary attack surface.
 
 ---
 
-### RPC / NFS — Misconfiguration Abuse
+## 🔍 Findings
 
-- **Issue:** Root directory (`/`) exported to all hosts  
-- **Impact:** Unauthenticated filesystem access  
-- **Result:** Credential extraction and sensitive data exposure  
+### 🔴 FTP Backdoor (vsFTPd 2.3.4)
+
+* **Severity:** Critical
+* **CVE:** CVE-2011-2523
+* **Description:** The FTP service contains a backdoor that allows unauthenticated remote command execution.
+* **Impact:** Immediate shell access without credentials, enabling full system compromise.
+* **Remediation:** Upgrade or replace the vulnerable FTP service.
+
+**Proof of Exploitation:**
+*(Add screenshot: FTP exploit + shell access here)*
 
 ---
 
-## Attack Chain & Lateral Movement
+### 🔴 SMB Remote Code Execution (EternalBlue)
 
-This lab demonstrates realistic attacker workflows:
+* **Severity:** Critical
+* **CVE:** CVE-2017-0144
+* **Description:** SMBv1 vulnerability enabling remote code execution.
+* **Impact:** SYSTEM-level access on the Windows machine.
+* **Remediation:** Apply MS17-010 patch and disable SMBv1.
 
+**Proof of Exploitation:**
+*(Add screenshot: Metasploit exploit success + SYSTEM shell)*
 
-FTP → Initial Access → Credential Extraction
-SMB → SYSTEM Compromise → Persistence
-SSH → Brute Force → Privilege Escalation
-NFS → Filesystem Mount → Credential Dump → Pivoting
+---
 
+### 🟠 Weak SSH Credentials & Privilege Escalation
+
+* **Severity:** High
+* **Description:** Weak passwords allowed brute-force access, followed by privilege escalation via sudo misconfiguration.
+* **Impact:** Full root access to the system.
+* **Remediation:** Enforce strong password policies and restrict sudo privileges.
+
+**Proof of Exploitation:**
+*(Add screenshot: Hydra attack + root shell)*
+
+---
+
+### 🔴 NFS Misconfiguration
+
+* **Severity:** Critical
+* **Description:** Root directory (`/`) exported without proper restrictions.
+* **Impact:** Unauthorized file access, credential exposure, and potential lateral movement.
+* **Remediation:** Restrict exports and enforce proper authentication controls.
+
+**Proof of Exploitation:**
+*(Add screenshot: NFS mount + file access)*
+
+---
+
+## 🔗 Attack Chain & Lateral Movement
+
+The attack demonstrates a realistic multi-stage compromise:
+
+```
+[Reconnaissance]
+      ↓
+[FTP Exploit → Initial Shell]
+      ↓
+[Credential Extraction]
+      ↓
+[SSH Access → Privilege Escalation]
+      ↓
+[SMB Exploit → SYSTEM Access]
+      ↓
+[NFS Mount → Data Exfiltration → Pivoting]
+```
 
 ### Key Insight
 
-The compromise was not due to a single vulnerability, but due to:
+The compromise was achieved by chaining multiple weaknesses:
 
-- Multiple exposed services  
-- Weak authentication  
-- Lack of segmentation  
-- Poor configuration practices  
-
----
-
-## Impact Assessment
-
-- Full compromise of Linux and Windows systems  
-- Credential reuse across services  
-- Persistent access establishment  
-- High potential for lateral movement  
-
-**Overall Risk Rating: CRITICAL**
+* Exposed services
+* Weak authentication
+* Lack of segmentation
+* Misconfigured network resources
 
 ---
 
-## Mitigation & Defensive Measures
+## 📊 Impact Assessment
 
-- Apply regular patch management (e.g., MS17-010)  
-- Disable deprecated protocols (SMBv1)  
-- Enforce strong authentication policies  
-- Restrict service exposure (least privilege)  
-- Implement network segmentation  
-- Monitor traffic and detect anomalies  
+* Full compromise of Linux and Windows systems
+* Credential reuse across services
+* Persistent access established
+* High potential for lateral movement
 
----
+**Business Impact:**
+An attacker could access sensitive enterprise data, maintain persistent access, and move laterally across internal systems, leading to full network compromise.
 
-## Tools Used
-
-- Nmap (Reconnaissance & Enumeration)  
-- Metasploit Framework (Exploitation)  
-- Hydra / Ncrack (Credential Attacks)  
-- Netcat (Shell Handling)  
-- John the Ripper (Password Cracking)  
+**Overall Risk Rating:** **CRITICAL**
 
 ---
 
-## Key Takeaways
+## 🛠️ Mitigation & Defensive Measures
 
-- Real-world attacks rely on **chaining multiple weaknesses**, not isolated exploits  
-- Misconfigurations are often more critical than software vulnerabilities  
-- Network segmentation plays a key role in limiting attack spread  
-- Understanding **service behavior** is essential for effective penetration testing  
-
----
-
-## Deliverables
-
-- Full VAPT report (including CVE and CVSS mapping)  
-- Exploitation walkthrough and documentation  
-- Attack chain analysis  
+* Apply regular patch management (e.g., MS17-010)
+* Disable deprecated protocols (SMBv1)
+* Enforce strong authentication policies
+* Restrict unnecessary service exposure
+* Implement network segmentation
+* Monitor logs and detect anomalies
 
 ---
 
-## Disclaimer
+## 🛠️ Tools Used
 
-This project was conducted in a controlled lab environment for educational purposes only.  
+* Nmap (Reconnaissance & Enumeration)
+* Metasploit Framework (Exploitation)
+* Hydra / Ncrack (Credential Attacks)
+* Netcat (Shell Handling)
+* John the Ripper (Password Cracking)
+
+---
+
+## 📊 Key Takeaways
+
+* Real-world attacks rely on chaining multiple vulnerabilities
+* Misconfigurations often pose greater risks than software flaws
+* Weak authentication leads to rapid compromise
+* Network segmentation is critical for limiting attack spread
+
+---
+
+## 🧾 Executive Summary
+
+The internal network is critically vulnerable due to multiple high-risk services, weak authentication, and lack of segmentation. An attacker can achieve full compromise with minimal effort by chaining these weaknesses.
+
+---
+
+## 📄 Conclusion
+
+This assessment demonstrates how attackers can exploit internal network weaknesses to gain unauthorized access, escalate privileges, and move laterally across systems. Proper security controls, patch management, and network segmentation are essential to mitigate these risks.
+
+---
+
+## ⚠️ Disclaimer
+
+This project was conducted in a controlled lab environment for educational purposes only.
 Do not attempt these techniques on systems without proper authorization.
