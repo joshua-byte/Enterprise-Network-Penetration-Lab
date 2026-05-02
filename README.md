@@ -64,8 +64,6 @@ Reconnaissance → Enumeration → Vulnerability Identification → Exploitation
 **Proof:**
 
 * FTP exploit → shell
-* `whoami → root`
-* `sessions -u` → meterpreter
 <img width="1257" height="658" alt="meterpreter_shell" src="https://github.com/user-attachments/assets/bdc446f5-a50f-4274-8e97-466f24c459c0" />
 <img width="1267" height="757" alt="exploiting_vuln_escalation" src="https://github.com/user-attachments/assets/f3f980d2-95c2-49d6-8af0-2b4cc0783490" />
 
