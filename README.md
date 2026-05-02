@@ -207,9 +207,7 @@ An attacker can gain complete control over internal systems, extract sensitive d
 
 * Nmap
 * Metasploit Framework
-* Hydra / Ncrack
-* Netcat
-* John the Ripper
+* Ncrack
 
 ---
 
