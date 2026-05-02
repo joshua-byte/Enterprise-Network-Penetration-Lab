@@ -94,8 +94,9 @@ Reconnaissance → Enumeration → Vulnerability Identification → Exploitation
 * `net user hacker Pass@123 /add`
 * `net localgroup administrators hacker /add`
 <img width="923" height="493" alt="smb_user" src="https://github.com/user-attachments/assets/612ed66d-18e2-4930-b5e8-60f5bacbce30" />
-<img width="923" height="790" alt="admin_user" src="https://github.com/user-attachments/assets/c94c9dc5-7dc7-406c-bec4-f0e63076d5a0" />
 <img width="923" height="502" alt="add_user" src="https://github.com/user-attachments/assets/0e28f4d5-88d5-42bf-8fe4-4fb78a6b6c7e" />
+<img width="923" height="790" alt="admin_user" src="https://github.com/user-attachments/assets/c94c9dc5-7dc7-406c-bec4-f0e63076d5a0" />
+
 
 
 **Remediation:**
